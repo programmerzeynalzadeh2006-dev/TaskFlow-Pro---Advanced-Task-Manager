@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ TaskFlow Pro - مدیریت هوشمند کارها</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- تم تاریک/روشن -->
+    <button class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <div class="container">
+        <!-- هدر -->
+        <header class="header">
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-tasks"></i>
+                    TaskFlow Pro
+                </h1>
+                <p class="subtitle">مدیریت هوشمند کارهای روزانه</p>
+            </div>
+            
+            <!-- آمار سریع -->
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <i class="fas fa-list-alt"></i>
+                    <span id="total-tasks">0</span>
+                    <small>کل کارها</small>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="completed-tasks">0</span>
+                    <small>انجام شده</small>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="today-tasks">0</span>
+                    <small>امروز</small>
+                </div>
+            </div>
+        </header>
+
+        <!-- بخش ورود کار جدید -->
+        <div class="task-input-section">
+            <div class="input-group">
+                <input type="text" id="task-input" placeholder="کار جدیدت رو اینجا بنویس..." autofocus>
+                <div class="input-actions">
+                    <select id="category-select">
+                        <option value="عمومی">🏷️ عمومی</option>
+                        <option value="کار">💼 کار</option>
+                        <option value="شخصی">👤 شخصی</option>
+                        <option value="خرید">🛒 خرید</option>
+                        <option value="سلامتی">❤️ سلامتی</option>
+                        <option value="تحصیل">🎓 تحصیل</option>
+                    </select>
+                    
+                    <input type="date" id="task-date" title="تاریخ انجام">
+                    
+                    <input type="time" id="task-time" title="زمان انجام">
+                    
+                    <button class="btn-primary" id="add-task-btn">
+                        <i class="fas fa-plus"></i>
+                        اضافه کردن
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- دسته‌بندی‌ها -->
+        <div class="categories">
+            <button class="category-btn active" data-category="همه">
+                <i class="fas fa-layer-group"></i>
+                همه
+            </button>
+            <button class="category-btn" data-category="عمومی">
+                <i class="fas fa-tag"></i>
+                عمومی
+            </button>
+            <button class="category-btn" data-category="کار">
+                <i class="fas fa-briefcase"></i>
+                کار
+            </button>
+            <button class="category-btn" data-category="شخصی">
+                <i class="fas fa-user"></i>
+                شخصی
+            </button>
+            <button class="category-btn" data-category="خرید">
+                <i class="fas fa-shopping-cart"></i>
+                خرید
+            </button>
+            <button class="category-btn" data-category="امروز">
+                <i class="fas fa-calendar-day"></i>
+                امروز
+            </button>
+        </div>
+
+        <!-- فیلترها و جستجو -->
+        <div class="filters-section">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="همه">همه</button>
+                <button class="filter-btn" data-filter="انجام نشده">در انتظار</button>
+                <button class="filter-btn" data-filter="انجام شده">انجام شده</button>
+                <button class="filter-btn" data-filter="مهم">
+                    <i class="fas fa-star"></i> مهم
+                </button>
+                <button class="filter-btn" data-filter="دیرکرد">
+                    <i class="fas fa-exclamation-triangle"></i> دیرکرد
+                </button>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="جستجو در کارها...">
+            </div>
+            
+            <div class="sort-options">
+                <select id="sort-select">
+                    <option value="newest">جدیدترین اول</option>
+                    <option value="oldest">قدیمی‌ترین اول</option>
+                    <option value="priority">اولویت‌دار اول</option>
+                    <option value="date">نزدیک‌ترین زمان</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- لیست کارها -->
+        <div class="tasks-container" id="tasks-container">
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>لیست کارها خالیه!</h3>
+                <p>اولین کار رو اضافه کن تا شروع کنیم.</p>
+                <p class="hint">💡 می‌تونی با دسته‌بندی و زمان‌بندی کارهات رو بهتر مدیریت کنی.</p>
+            </div>
+        </div>
+
+        <!-- عملیات گروهی -->
+        <div class="bulk-actions" id="bulk-actions">
+            <div class="selected-count">
+                <span id="selected-count">0</span> مورد انتخاب شده
+            </div>
+            <div class="bulk-buttons">
+                <button class="btn-secondary" id="mark-completed">
+                    <i class="fas fa-check"></i> علامت انجام
+                </button>
+                <button class="btn-secondary" id="mark-important">
+                    <i class="fas fa-star"></i> علامت مهم
+                </button>
+                <button class="btn-danger" id="delete-selected">
+                    <i class="fas fa-trash"></i> حذف انتخاب شده‌ها
+                </button>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="export-section">
+                    <button class="btn-secondary" id="export-pdf">
+                        <i class="fas fa-file-pdf"></i> خروجی PDF
+                    </button>
+                    <button class="btn-secondary" id="export-json">
+                        <i class="fas fa-file-code"></i> خروجی JSON
+                    </button>
+                </div>
+                
+                <div class="app-info">
+                    <p>ساخته شده با <i class="fas fa-heart"></i> | نسخه ۲.۰</p>
+                    <p class="last-save" id="last-save">آخرین ذخیره: همین الان</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- مدال تنظیمات -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> تنظیمات</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="auto-save" checked>
+                        ذخیره خودکار
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="notifications" checked>
+                        نوتیفیکیشن
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="confirm-delete" checked>
+                        تأیید قبل از حذف
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>صداهای برنامه:</label>
+                    <select id="sound-select">
+                        <option value="on">فعال</option>
+                        <option value="off">غیرفعال</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <button class="btn-danger" id="clear-all">
+                        <i class="fas fa-trash"></i> حذف همه کارها
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- اعلان -->
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
